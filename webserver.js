@@ -6287,7 +6287,18 @@
     }
 
     var server = http.createServer(requestListener);
-    server.listen(8080);
+    window.createServer = http.createServer;
+    try {
+        server.listen(8080);
+        console.log("Web server started on port 8080");
+    } catch (e) {
+        console.warn("Couldn't start web server on port 8080, trying 8081");
+        try {
+            server.listen(8081);
+        } catch (e) {
+            console.warn("Couldn't start web server on port 8081; please manually set the port");
+        }
+    }
 
 
 })()
